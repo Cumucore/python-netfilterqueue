@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 from netfilterqueue import NetfilterQueue
 
 def print_and_accept(pkt):

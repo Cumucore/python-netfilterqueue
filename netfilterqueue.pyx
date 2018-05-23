@@ -191,7 +191,7 @@ cdef class NetfilterQueue:
         newsiz = nfnl_rcvbufsiz(nfq_nfnlh(self.h),sock_len)
         if newsiz != sock_len*2:
             raise RuntimeWarning("Socket rcvbuf limit is now %d, requested %d." % (newsiz,sock_len))
-    
+
     def unbind(self):
         """Destroy the queue."""
         if self.qh != NULL:
@@ -202,6 +202,10 @@ cdef class NetfilterQueue:
     def get_fd(self):
         """Get the file descriptor of the queue handler."""
         return nfq_fd(self.h)
+
+    def flush(self, count):
+        """flush the Q"""
+        nfq_set_verdict_batch(self.qh, count, NF_ACCEPT)
 
     def run(self, block=True):
         """Accept packets using recv."""
